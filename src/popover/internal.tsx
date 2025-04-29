@@ -16,6 +16,7 @@ import { useMergeRefs } from '../internal/hooks/use-merge-refs';
 import { usePortalModeClasses } from '../internal/hooks/use-portal-mode-classes';
 import { useUniqueId } from '../internal/hooks/use-unique-id';
 import { KeyCode } from '../internal/keycode';
+import InternalLiveRegion from '../live-region/internal';
 import Arrow from './arrow';
 import PopoverBody from './body';
 import PopoverContainer from './container';
@@ -150,8 +151,6 @@ function InternalPopover(
   const popoverContent =
     content === null ? null : (
       <div
-        aria-live={dismissButton ? undefined : 'polite'}
-        aria-atomic={dismissButton ? undefined : true}
         className={clsx(popoverClasses, !renderWithPortal && styles['popover-inline-content'])}
         data-awsui-referrer-id={referrerId}
       >
@@ -173,7 +172,7 @@ function InternalPopover(
               overflowVisible="both"
               closeAnalyticsAction={__closeAnalyticsAction}
             >
-              {content}
+              {dismissButton ? content : <InternalLiveRegion>{content}</InternalLiveRegion>}
             </PopoverBody>
           </LinkDefaultVariantContext.Provider>
         </PopoverContainer>
