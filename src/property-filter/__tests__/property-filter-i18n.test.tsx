@@ -161,6 +161,93 @@ describe('i18n', () => {
   });
 
   it('uses token and editor labels from i18n provider', () => {
+    // Pre-compiled AST for: {token__operator, select, equals {{token__propertyLabel} Custom equals {token__value}} ...}
+    const formatTokenAst = [
+      {
+        type: 5,
+        value: 'token__operator',
+        options: {
+          equals: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom equals ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          not_equals: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom does not equal ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          greater_than: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom greater than ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          greater_than_equal: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom greater than or equals ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          less_than: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom less than ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          less_than_equal: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom less than or equals ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          contains: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom contains ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          not_contains: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom does not contain ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          starts_with: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom starts with ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          not_starts_with: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' Custom does not start with ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          other: { value: [] },
+        },
+      },
+    ];
+
+    // Pre-compiled AST for: Remove filter, {token__formattedText}
+    const removeTokenButtonAriaLabelAst = [
+      { type: 0, value: 'Remove filter, ' },
+      { type: 1, value: 'token__formattedText' },
+    ];
+
     const { container } = render(
       <TestI18nProvider
         messages={{
@@ -180,19 +267,8 @@ describe('i18n', () => {
             'i18nStrings.tokenLimitShowFewer': 'Custom Show fewer',
             'i18nStrings.tokenLimitShowMore': 'Custom Show more',
             'i18nStrings.valueText': 'Custom Value',
-            'i18nStrings.formatToken': `{token__operator, select, 
-              equals {{token__propertyLabel} Custom equals {token__value}}
-              not_equals {{token__propertyLabel} Custom does not equal {token__value}}
-              greater_than {{token__propertyLabel} Custom greater than {token__value}}
-              greater_than_equal {{token__propertyLabel} Custom greater than or equals {token__value}}
-              less_than {{token__propertyLabel} Custom less than {token__value}}
-              less_than_equal {{token__propertyLabel} Custom less than or equals {token__value}}
-              contains {{token__propertyLabel} Custom contains {token__value}}
-              not_contains {{token__propertyLabel} Custom does not contain {token__value}}
-              starts_with {{token__propertyLabel} Custom starts with {token__value}}
-              not_starts_with {{token__propertyLabel} Custom does not start with {token__value}}
-              other {}}`,
-            'i18nStrings.removeTokenButtonAriaLabel': `Remove filter, {token__formattedText}`,
+            'i18nStrings.formatToken': formatTokenAst as any,
+            'i18nStrings.removeTokenButtonAriaLabel': removeTokenButtonAriaLabelAst as any,
           },
         }}
       >
@@ -258,23 +334,140 @@ describe('i18n', () => {
   });
 
   it('uses token group edit label from i18n provider', () => {
+    // Pre-compiled AST for formatToken select
+    const formatTokenAst = [
+      {
+        type: 5,
+        value: 'token__operator',
+        options: {
+          equals: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' eq ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          not_equals: {
+            value: [
+              { type: 1, value: 'token__propertyLabel' },
+              { type: 0, value: ' neq ' },
+              { type: 1, value: 'token__value' },
+            ],
+          },
+          other: { value: [] },
+        },
+      },
+    ];
+
+    // Pre-compiled AST for groupEditAriaLabel select
+    const groupEditAriaLabelAst = [
+      {
+        type: 5,
+        value: 'group__formattedTokens__length',
+        options: {
+          '2': {
+            value: [
+              { type: 0, value: 'Edit filter group ' },
+              { type: 1, value: 'group__formattedTokens0__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens1__formattedText' },
+            ],
+          },
+          '3': {
+            value: [
+              { type: 0, value: 'Edit filter group ' },
+              { type: 1, value: 'group__formattedTokens0__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens1__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens2__formattedText' },
+            ],
+          },
+          '4': {
+            value: [
+              { type: 0, value: 'Edit filter group ' },
+              { type: 1, value: 'group__formattedTokens0__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens1__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens2__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens3__formattedText' },
+            ],
+          },
+          '5': {
+            value: [
+              { type: 0, value: 'Edit filter group ' },
+              { type: 1, value: 'group__formattedTokens0__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens1__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens2__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens3__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' 1 more' },
+            ],
+          },
+          other: {
+            value: [
+              { type: 0, value: 'Edit filter group ' },
+              { type: 1, value: 'group__formattedTokens0__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens1__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens2__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__formattedTokens3__formattedText' },
+              { type: 0, value: ' ' },
+              { type: 1, value: 'group__operationLabel' },
+              { type: 0, value: ' more' },
+            ],
+          },
+        },
+      },
+    ];
+
+    // Pre-compiled AST for removeTokenButtonAriaLabel
+    const removeTokenButtonAriaLabelAst = [
+      { type: 0, value: 'Remove filter, ' },
+      { type: 1, value: 'token__formattedText' },
+    ];
+
     const { container } = render(
       <TestI18nProvider
         messages={{
           'property-filter': {
             'i18nStrings.operationAndText': '&',
             'i18nStrings.operationOrText': '|',
-            'i18nStrings.formatToken': `{token__operator, select, 
-              equals {{token__propertyLabel} eq {token__value}}
-              not_equals {{token__propertyLabel} neq {token__value}}
-              other {}}`,
-            'i18nStrings.groupEditAriaLabel': `{group__formattedTokens__length, select,
-              2 {Edit filter group {group__formattedTokens0__formattedText} {group__operationLabel} {group__formattedTokens1__formattedText}}
-              3 {Edit filter group {group__formattedTokens0__formattedText} {group__operationLabel} {group__formattedTokens1__formattedText} {group__operationLabel} {group__formattedTokens2__formattedText}}
-              4 {Edit filter group {group__formattedTokens0__formattedText} {group__operationLabel} {group__formattedTokens1__formattedText} {group__operationLabel} {group__formattedTokens2__formattedText} {group__operationLabel} {group__formattedTokens3__formattedText}}
-              5 {Edit filter group {group__formattedTokens0__formattedText} {group__operationLabel} {group__formattedTokens1__formattedText} {group__operationLabel} {group__formattedTokens2__formattedText} {group__operationLabel} {group__formattedTokens3__formattedText} {group__operationLabel} 1 more}
-              other {Edit filter group {group__formattedTokens0__formattedText} {group__operationLabel} {group__formattedTokens1__formattedText} {group__operationLabel} {group__formattedTokens2__formattedText} {group__operationLabel} {group__formattedTokens3__formattedText} {group__operationLabel} more}}`,
-            'i18nStrings.removeTokenButtonAriaLabel': `Remove filter, {token__formattedText}`,
+            'i18nStrings.formatToken': formatTokenAst as any,
+            'i18nStrings.groupEditAriaLabel': groupEditAriaLabelAst as any,
+            'i18nStrings.removeTokenButtonAriaLabel': removeTokenButtonAriaLabelAst as any,
           },
         }}
       >

@@ -3,8 +3,6 @@
 
 import React from 'react';
 import { render } from '@testing-library/react';
-import * as IntlMessageFormat from 'intl-messageformat';
-import range from 'lodash/range';
 
 import { I18nProvider, I18nProviderProps } from '../../../lib/components/i18n';
 import { namespace } from '../../../lib/components/i18n/context';
@@ -26,7 +24,7 @@ describe('with custom "lang" on <html>', () => {
       [namespace]: {
         es: {
           'test-component': {
-            topLevelString: 'Custom Spanish string',
+            topLevelString: [{ type: 0, value: 'Custom Spanish string' }],
           },
         },
       },
@@ -71,7 +69,7 @@ it('falls back to a less specific language tag if a string is not provided for a
     [namespace]: {
       'en-GB': {
         'test-component': {
-          topLevelString: 'Custom string - colour',
+          topLevelString: [{ type: 0, value: 'Custom string - colour' }],
         },
       },
     },
@@ -115,7 +113,7 @@ it('merges provided message objects in order', () => {
     [namespace]: {
       en: {
         'test-component': {
-          topLevelString: 'My custom string',
+          topLevelString: [{ type: 0, value: 'My custom string' }],
         },
       },
     },
@@ -135,7 +133,7 @@ it('allows nesting providers', () => {
     [namespace]: {
       en: {
         'test-component': {
-          topLevelString: 'My custom string',
+          topLevelString: [{ type: 0, value: 'My custom string' }],
         },
       },
     },
@@ -151,28 +149,4 @@ it('allows nesting providers', () => {
 
   expect(container.querySelector('#top-level-string')).toHaveTextContent('My custom string');
   expect(container.querySelector('#nested-string')).toHaveTextContent('nested string');
-});
-
-it('initializes an IntlMessageFormat instance once per message per render', () => {
-  const constructorSpy = jest.spyOn(IntlMessageFormat, 'default');
-  const { rerender } = render(
-    <I18nProvider messages={[MESSAGES]} locale="en">
-      {range(100).map(i => (
-        <TestComponent key={i} />
-      ))}
-    </I18nProvider>
-  );
-
-  // TestComponent uses four different strings
-  expect(constructorSpy).toHaveBeenCalledTimes(4);
-
-  // Rerendering will reset the internal cache.
-  rerender(
-    <I18nProvider messages={[MESSAGES]} locale="en">
-      {range(100).map(i => (
-        <TestComponent key={i} />
-      ))}
-    </I18nProvider>
-  );
-  expect(constructorSpy).toHaveBeenCalledTimes(8);
 });

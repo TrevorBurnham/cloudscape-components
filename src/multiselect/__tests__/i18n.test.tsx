@@ -31,8 +31,14 @@ function renderElement(jsx: React.ReactElement) {
 }
 describe('i18n provider', () => {
   test('supports providing deselectAriaLabel', () => {
+    // Pre-compiled AST for: 'Custom deselect {option__label}'
+    const deselectAriaLabelAst = [
+      { type: 0, value: 'Custom deselect ' },
+      { type: 1, value: 'option__label' },
+    ];
+
     const { wrapper } = renderElement(
-      <TestI18nProvider messages={{ multiselect: { deselectAriaLabel: 'Custom deselect {option__label}' } }}>
+      <TestI18nProvider messages={{ multiselect: { deselectAriaLabel: deselectAriaLabelAst as any } }}>
         <Multiselect selectedOptions={[{ label: 'First', value: '1' }]} options={defaultOptions} />
       </TestI18nProvider>
     );

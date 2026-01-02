@@ -15,14 +15,25 @@ interface TestComponentProps {
   };
 }
 
+// Pre-compiled AST format (same as build output)
 export const MESSAGES: I18nProviderProps.Messages = {
   [namespace]: {
     en: {
       'test-component': {
-        topLevelString: 'top level string',
-        topLevelFunction: 'top level {type}',
-        'nested.nestedString': 'nested string',
-        'nested.nestedFunction': 'nested {type}',
+        // 'top level string'
+        topLevelString: [{ type: 0, value: 'top level string' }],
+        // 'top level {type}'
+        topLevelFunction: [
+          { type: 0, value: 'top level ' },
+          { type: 1, value: 'type' },
+        ],
+        // 'nested string'
+        'nested.nestedString': [{ type: 0, value: 'nested string' }],
+        // 'nested {type}'
+        'nested.nestedFunction': [
+          { type: 0, value: 'nested ' },
+          { type: 1, value: 'type' },
+        ],
       },
     },
   },

@@ -197,10 +197,26 @@ describe('fallback customization with i18n', () => {
 
   test('customizes fallback feedback using i18n provider', () => {
     const Feedback = ({ children }: { children: React.ReactNode }) => <a href="https://feed.back">{children}</a>;
+    // Pre-compiled AST for: '{hasFeedback, select, true {Try again, <Feedback>share feedback</Feedback>.} other {Try again.}}'
+    const descriptionTextAst = [
+      {
+        type: 5,
+        value: 'hasFeedback',
+        options: {
+          true: {
+            value: [
+              { type: 0, value: 'Try again, ' },
+              { type: 8, value: 'Feedback', children: [{ type: 0, value: 'share feedback' }] },
+              { type: 0, value: '.' },
+            ],
+          },
+          other: { value: [{ type: 0, value: 'Try again.' }] },
+        },
+      },
+    ];
     const i18nProvider = {
       'error-boundary': {
-        'i18nStrings.descriptionText':
-          '{hasFeedback, select, true {Try again, <Feedback>share feedback</Feedback>.} other {Try again.}}',
+        'i18nStrings.descriptionText': descriptionTextAst as any,
       },
     };
     const { rerender } = renderWithErrorBoundary(<b>{{}}</b>);
@@ -298,9 +314,9 @@ describe('fallback customization with renderFallback', () => {
     renderWithErrorBoundary(<b>{{}}</b>, {
       i18nProvider: {
         'error-boundary': {
-          'i18nStrings.headerText': 'Ooops!',
-          'i18nStrings.descriptionText': 'Try again.',
-          'i18nStrings.refreshActionText': 'Refresh',
+          'i18nStrings.headerText': [{ type: 0, value: 'Ooops!' }] as any,
+          'i18nStrings.descriptionText': [{ type: 0, value: 'Try again.' }] as any,
+          'i18nStrings.refreshActionText': [{ type: 0, value: 'Refresh' }] as any,
         },
       },
       renderFallback,
